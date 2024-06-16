@@ -10,12 +10,19 @@ document.getElementById('age-form').addEventListener('submit', function(event) {
     const birthDate = new Date(year, month, day);
     const today = new Date();
 
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const m = today.getMonth() - birthDate.getMonth();
+    let ageYears = today.getFullYear() - birthDate.getFullYear();
+    let ageMonths = today.getMonth() - birthDate.getMonth();
+    let ageDays = today.getDate() - birthDate.getDate();
 
-    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-        age--;
+    if (ageDays < 0) {
+        ageMonths--;
+        ageDays += new Date(today.getFullYear(), today.getMonth(), 0).getDate(); // Get the number of days in the previous month
     }
 
-    document.getElementById('result').textContent = `Your age is ${age} years.`;
+    if (ageMonths < 0) {
+        ageYears--;
+        ageMonths += 12;
+    }
+
+    document.getElementById('result').textContent = `Your age is ${ageYears} years, ${ageMonths} months, and ${ageDays} days.`;
 });
